@@ -27,6 +27,7 @@ import sys
 import argparse
 from crearMuestras_class import c_crearMuestras
 from recepcionarMuestra_class import c_recepcionarMuestra
+from entregaResultado_class import c_entregaResultado
 from datosMuestraID_class import c_datosMuestraID
 from datosMuestraRUT_class import c_datosMuestraRUT
 
@@ -108,12 +109,38 @@ def recepcionar(argumento, endpoint, config_entorno):
             print(o_crear.respuesta)
             print(o_crear.respuesta.text)
 
-def resultado():
+def resultado(argumento, endpoint, config_entorno):
     """
     Wrapper para el informe de resultados de una muestra
     """
 
-    print("hola")
+    o_crear = c_entregaResultado(config_entorno['accesskey'], config_entorno['dominio'] + endpoint)
+
+    argumentos = argumento.split(",")
+
+    creacion = o_crear.llamar(int(argumentos[0]), int(argumentos[1]))
+    if creacion == 0:
+        # Éxito
+        print("Código de respuesta: {}".format(o_crear.codigo_respuesta))
+        if o_crear.codigo_respuesta == 200:
+            # Recuperamos datos para este ID de muestra
+            print("\nMUESTRA CON RESULTADO ENTREGADO")
+            print("-------------------------------")
+        else:
+            # Se contactó a la API REST, pero la respuesta fue distinta a 200
+            print("ERROR: Ocurrió el siguiente error al intentar recepcionar la muestra:")
+            print(o_crear.resultados)
+
+    else:
+        # Error
+        print("Error al llamar al servicio...")
+        if creacion == 1:
+            # Error de validacion
+            print("El argumento pasado para llamar al servicio no es correcto.")
+        elif creacion == 2:
+            # Error de conexión a servicio
+            print(o_crear.respuesta)
+            print(o_crear.respuesta.text)
 
 def datos_id(argumento, endpoint, config_entorno):
     """
