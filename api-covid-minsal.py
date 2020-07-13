@@ -72,6 +72,7 @@ def crear(argumento, endpoint, config_entorno):
         elif creacion == 2:
             # Error de conexión a servicio
             print(o_crear.respuesta)
+            print(o_crear.respuesta.text)
 
 def recepcionar():
     """
@@ -141,6 +142,7 @@ def datos_id(argumento, endpoint, config_entorno):
         elif creacion == 2:
             # Error de conexión a servicio
             print(o_datos.respuesta)
+            print(o_datos.respuesta.text)
 
 def datos_rut(argumento, endpoint, config_entorno):
     """
@@ -200,6 +202,7 @@ def datos_rut(argumento, endpoint, config_entorno):
         elif creacion == 2:
             # Error de conexión a servicio
             print(o_datos.respuesta)
+            print(o_datos.respuesta.text)
 
 ####################
 # PUNTO DE ENTRADA #
