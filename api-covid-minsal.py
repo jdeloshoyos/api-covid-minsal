@@ -26,6 +26,7 @@ import json
 import sys
 import argparse
 from crearMuestras_class import c_crearMuestras
+from recepcionarMuestra_class import c_recepcionarMuestra
 from datosMuestraID_class import c_datosMuestraID
 from datosMuestraRUT_class import c_datosMuestraRUT
 
@@ -74,12 +75,38 @@ def crear(argumento, endpoint, config_entorno):
             print(o_crear.respuesta)
             print(o_crear.respuesta.text)
 
-def recepcionar():
+def recepcionar(argumento, endpoint, config_entorno):
     """
     Wrapper para la recepción de una muestra
     """
 
-    print("hola")
+    o_crear = c_recepcionarMuestra(config_entorno['accesskey'], config_entorno['dominio'] + endpoint)
+
+    creacion = o_crear.llamar(int(argumento))
+    if creacion == 0:
+        # Éxito
+        print("Código de respuesta: {}".format(o_crear.codigo_respuesta))
+        if o_crear.codigo_respuesta == 200:
+            # Recuperamos datos para este ID de muestra
+            print("\nMUESTRA RECEPCIONADA")
+            print("--------------------")
+            print("ID Minsal de muestra : {}".format(o_crear.resultados['id_muestra']))
+            print("ID local de muestra  : {}".format(o_crear.resultados['codigo_muestra_cliente']))
+        else:
+            # Se contactó a la API REST, pero la respuesta fue distinta a 200
+            print("ERROR: Ocurrió el siguiente error al intentar recepcionar la muestra:")
+            print(o_crear.resultados)
+
+    else:
+        # Error
+        print("Error al llamar al servicio...")
+        if creacion == 1:
+            # Error de validacion
+            print("El argumento pasado para llamar al servicio no es correcto.")
+        elif creacion == 2:
+            # Error de conexión a servicio
+            print(o_crear.respuesta)
+            print(o_crear.respuesta.text)
 
 def resultado():
     """
@@ -95,7 +122,7 @@ def datos_id(argumento, endpoint, config_entorno):
 
     o_datos = c_datosMuestraID(config_entorno['accesskey'], config_entorno['dominio'] + endpoint)
 
-    creacion = o_datos.llamar(int(args.argumento))
+    creacion = o_datos.llamar(int(argumento))
     if creacion == 0:
         # Éxito
         print("Código de respuesta: {}".format(o_datos.codigo_respuesta))
@@ -151,7 +178,7 @@ def datos_rut(argumento, endpoint, config_entorno):
 
     o_datos = c_datosMuestraRUT(config_entorno['accesskey'], config_entorno['dominio'] + endpoint)
 
-    creacion = o_datos.llamar(args.argumento)
+    creacion = o_datos.llamar(argumento)
     if creacion == 0:
         # Éxito
         print("Código de respuesta: {}".format(o_datos.codigo_respuesta))

@@ -86,7 +86,7 @@ class c_crearMuestras:
             "paciente_comuna": (int) (código DEIS),
             "paciente_direccion": (str),
             "paciente_telefono": (str),
-            "paciente_tipodoc": (int) (ESTRUCTURADO; Opciones: 1="RUN", 2="PASAPORTE"),
+            "paciente_tipodoc": (int) (ESTRUCTURADO; Opciones: 1="RUN", 2="PASAPORTE", 3="SIN DOCUMENTACION"),
             "paciente_sexo": (int) (ESTRUCTURADO; Opciones: 1="M", 2="F", 3="Intersex", 4="Desconocido"),
             "paciente_prevision": (int) (ESTRUCTURADO; Opciones: 1="FONASA", 2="ISAPRE", 3="CAPREDENA", 4="SISAN", 5="SISAE", 6="DIPRECA", 7="SIN PREVISIÓN"),
             "fecha_muestra": (str) (dd-mm-aaaa),
@@ -113,7 +113,7 @@ class c_crearMuestras:
         self.validacion += self.valida_campo(datos_muestra, "cod_deis", int)
         self.validacion += self.valida_campo(datos_muestra, "rut_medico", str, patron=patron_rut)
         self.validacion += self.valida_campo(datos_muestra, "paciente_run", int)
-        self.validacion += self.valida_campo(datos_muestra, "paciente_dv", int)
+        self.validacion += self.valida_campo(datos_muestra, "paciente_dv", str, patron="^[0-9kK]$")
         self.validacion += self.valida_campo(datos_muestra, "paciente_nombres", str)
         self.validacion += self.valida_campo(datos_muestra, "paciente_ap_pat", str)
         self.validacion += self.valida_campo(datos_muestra, "paciente_ap_mat", str)
@@ -135,7 +135,8 @@ class c_crearMuestras:
         # Campos validados. Hacemos la conversión de los campos estructurados.
         tipos_doc = {
             1: "RUN",
-            2: "PASAPORTE"
+            2: "PASAPORTE",
+            3: "SIN DOCUMENTACION"
         }
 
         tipos_sexo = {
