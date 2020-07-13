@@ -1,9 +1,9 @@
 {
     "codigo_muestra_cliente": "TEST2020071303",
     "id_laboratorio": "112200",
-    "rut_responsable": "16302366-0",
+    "rut_responsable": "12345678-9",
     "cod_deis": 112200,
-    "rut_medico": "13549728-2",
+    "rut_medico": "12345678-9",
     "paciente_run": 22222222,
     "paciente_dv": 2,
     "paciente_nombres": "Bernardino",
