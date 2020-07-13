@@ -1,0 +1,36 @@
+{
+    "entorno": "prueba",
+    "entornos": [
+        {
+            "nombre": "prueba",
+            "dominio": "https://tomademuestras.api.openagora.org",
+            "accesskey": "mi-access-key",
+            "db": {
+                "host": "localhost",
+                "database": "api_covid_minsal",
+                "user": "postgres",
+                "pass": "mi-pass",
+                "schema": "public"
+            }
+        },
+        {
+            "nombre": "produccion",
+            "dominio": "https://tomademuestras.api.minsal.cl",
+            "accesskey": "",
+            "db": {
+                "host": "localhost",
+                "database": "api_covid_minsal",
+                "user": "postgres",
+                "pass": "mi-pass",
+                "schema": "public"
+            }
+        }
+    ],
+    "endpoints": {
+        "crearMuestra": "/crearMuestras",
+        "recepcionarMuestra": "/recepcionarMuestra",
+        "entregaResultado": "/entregaResultado",
+        "datosMuestraID": "/datosMuestraID",
+        "datosMuestraRUT": "/datosMuestraRUT"
+    }
+}

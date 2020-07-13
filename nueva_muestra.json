@@ -1,0 +1,22 @@
+{
+    "codigo_muestra_cliente": "TEST2020071303",
+    "id_laboratorio": "112200",
+    "rut_responsable": "16302366-0",
+    "cod_deis": 112200,
+    "rut_medico": "13549728-2",
+    "paciente_run": 22222222,
+    "paciente_dv": 2,
+    "paciente_nombres": "Bernardino",
+    "paciente_ap_pat": "Manzano",
+    "paciente_ap_mat": "Astudillo",
+    "paciente_fecha_nac": "07-08-1984",
+    "paciente_comuna": 134,
+    "paciente_direccion": "El Chirimoyo 1234, Renca",
+    "paciente_telefono": "1234567",
+    "paciente_tipodoc": 1,
+    "paciente_sexo": 1,
+    "paciente_prevision": 2,
+    "fecha_muestra": "13-07-2020",
+    "tecnica_muestra": 1,
+    "tipo_muestra": 7
+}

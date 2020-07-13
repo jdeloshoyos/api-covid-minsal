@@ -1,0 +1,271 @@
+{
+	"info": {
+		"_postman_id": "58e36f19-c450-4fc0-947a-57a8f9f18a9b",
+		"name": "Toma de Muestra - DEMO",
+		"description": "# Introduction\nWhat does your API do?\n\n# Overview\nThings that the developers should know about\n\n# Authentication\nWhat is the preferred way of using the API?\n\n# Error Codes\nWhat errors and status codes can a user expect?\n\n# Rate limit\nIs there a limit to the number of requests an user can send?",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		
+		{
+			"name": "Solicitud de Datos Muestra por id_muestra - EJEMPLO",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "ACCESSKEY",
+						"type": "text",
+						"value": "Aquí va el accesskey del usuario. El usuario debe ser un laboratorio."
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "parametros",
+							"value": "{\"id_muestra\":\"id de la muestra por la que se quiere consultar. Este id debe estar asociado al laboratorio.\"}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://tomademuestras.api.openagora.cl/41381c1a-8d27-d33b-2e4a-403d757e39cc",
+					"protocol": "https",
+					"host": [
+						"tomademuestras",
+						"api",
+						"openagora",
+						"cl"
+					],
+					"path": [
+						"41381c1a-8d27-d33b-2e4a-403d757e39cc"
+					]
+				},
+				"description": "Este WS entrega los datos de una muestra que esté asignada al laboratorio."
+			},
+			"response": []
+		},
+		
+		{
+			"name": "Solicitud de Datos Muestra por RUT paciente EJEMPLO",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "ACCESSKEY",
+						"type": "text",
+						"value": "Aquí va el accesskey del usuario. El usuario debe ser un laboratorio."
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "parametros",
+							"value": "{\"rut_paciente\":\"RUT del paciente, ej: 11222333-4\"}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://tomademuestras.api.openagora.cl/41381c1a-8d27-d33b-2e4a-403d757e39cc",
+					"protocol": "https",
+					"host": [
+						"tomademuestras",
+						"api",
+						"openagora",
+						"cl"
+					],
+					"path": [
+						"41381c1a-8d27-d33b-2e4a-403d757e39cc"
+					]
+				},
+				"description": "Este WS entrega los datos de una muestra que esté asignada al laboratorio."
+			},
+			"response": []
+		},
+		
+		{
+			"name": "Descargar de muestras EJEMPLO",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "ACCESSKEY",
+						"type": "text",
+						"value": "Aquí va el accesskey del usuario. El usuario debe ser un laboratorio."
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "parametros",
+							"value": "{\"estado_muestra\":Valores posibles: 2, 3, 4, 5,\"fecha_muestra\": por ejemplo: 06-05-2020}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://tomademuestras.api.openagora.cl/73548bba-a9aa-9150-054f-42f4b86a7131",
+					"protocol": "https",
+					"host": [
+						"tomademuestras",
+						"api",
+						"openagora",
+						"cl"
+					],
+					"path": [
+						"73548bba-a9aa-9150-054f-42f4b86a7131"
+					]
+				},
+				"description": "Este WS permite descargar los datos de muestras que estén en determinado estado, para un día."
+			},
+			"response": []
+		},
+		
+		{
+			"name": "Insertar_muestra EJEMPLO",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "ACCESSKEY",
+						"type": "text",
+						"value": "Aquí va el accesskey del usuario. El usuario debe ser un laboratorio."
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\"codigo_muestra_cliente\":\"Código de la muestra, la cual debe ser única por laboratorio\",\n\"id_laboratorio\":\"código del laboratorio. Ver maestro de laboratorios.\",\n\"rut_responsable\":\"RUT de quien está registrando la solicitud ej: 11222333-4\",\n\"cod_deis\":\"Código DEIS de la institución relacionada\",\n\"rut_medico\":\"RUT del prefesional solicitante ej: 11222333-4\",\n\n\"paciente_run\":\"Paciente, RUT, ej: 11222333\",\n\"paciente_dv\":\"Paciente, dígito verificador del RUT, ej: 4\",\n\"paciente_nombres\":\"Paciente, nombres\",\n\"paciente_ap_pat\":\"Paciente, apellido paterno\",\n\"paciente_ap_mat\":\"Paciente, apellido materno\",\n\n\"paciente_fecha_nac\":\"Paciente, fecha de nacimiento, ej: 01-01-2000\",\n\"paciente_comuna\":\"Paciente, id de la comuna donde vive. Ver maestro de comunas\",\n\"paciente_direccion\":\"Paciente, dirección\",\n\"paciente_telefono\":\"Paciente, teléfono\",\n\"paciente_tipodoc\":\"Paciente, tipo de documento de identificació. Ver maestro tipos de documentos\",\n\n\"paciente_ext_paisorigen\":\"Paciente, país de origen. Sólo para extranjeros. Ver maestro de paises\",\n\"paciente_pasaporte\":\"Paciente, número de pasaporte. Sólo para extranjeros\",\n\"paciente_sexo\":\"Paciente, sexo: M o F\",\n\"paciente_prevision\":\"Paciente, previsión. Ver maestro de previsión.\",\n\n\"fecha_muestra\":\"Muestra, fecha toma de la muestra, ej: 06-05-2020\",\n\"tecnica_muestra\":\"Muestra, técnica de toma de muestra. Ver maestro técnica toma de muestra\",\n\"tipo_muestra\":\"Muestra, tipo de muestra. Campo libre, con valores sugeridos. Ver maestro de tipo de muestra\"}]"
+				},
+				"url": {
+					"raw": "https://tomademuestras.api.openagora.cl/328302d8-0ba3-5611-24fa-a7a2f146241f",
+					"protocol": "https",
+					"host": [
+						"tomademuestras",
+						"api",
+						"openagora",
+						"cl"
+					],
+					"path": [
+						"328302d8-0ba3-5611-24fa-a7a2f146241f"
+					]
+				},
+				"description": "Este WS permite crear una muestra en el sistema de tomademuestra"
+			},
+			"response": []
+		},
+		
+		{
+			"name": "Recepcionar muestra EJEMPLO",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "ACCESSKEY",
+						"type": "text",
+						"value": "Aquí va el accesskey del usuario. El usuario debe ser un laboratorio."
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\"id_muestra\":Es el id de la muestra según el sistema toma de muetra}]"
+				},
+				"url": {
+					"raw": "https://tomademuestras.api.openagora.cl/27f9298d-ead4-1746-8356-cc054f245118",
+					"protocol": "https",
+					"host": [
+						"tomademuestras",
+						"api",
+						"openagora",
+						"cl"
+					],
+					"path": [
+						"27f9298d-ead4-1746-8356-cc054f245118"
+					]
+				},
+				"description": "Este WS permite recepcionar una muestra"
+			},
+			"response": []
+		},
+		
+		{
+			"name": "Envío Resultados EJEMPLO",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "ACCESSKEY",
+						"type": "text",
+						"value": "Aquí va el accesskey del usuario. El usuario debe ser un laboratorio."
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "upfile",
+							"type": "file",
+							"src": "/Users/alejandroverdejo/Downloads/_archivo_carga.pdf"
+						},
+						{
+							"key": "parametros",
+							"value": "{\"id_muestra\":\"Aquí va el accesskey del usuario. El usuario debe ser un laboratorio.\",\"resultado\":\"Resultado de la muestra, según maestro de posibles resultados\"}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://tomademuestras.api.openagora.cl/a3772090-34dd-d3e3-658e-c75b6ebd211a",
+					"protocol": "https",
+					"host": [
+						"tomademuestras",
+						"api",
+						"openagora",
+						"cl"
+					],
+					"path": [
+						"a3772090-34dd-d3e3-658e-c75b6ebd211a"
+					]
+				},
+				"description": "Este WS permite entregar el resultado de una muestra."
+			},
+			"response": []
+		},
+
+		{
+			"name": "Cambio de laboratorio EJEMPLO",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "ACCESSKEY",
+						"type": "text",
+						"value": "Accesskey del laboratorio que tiene asignada la muestra"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\"id_muestra\":id de la muestra,\"id_nuevo_laboratorio\":id del laboratorio}]"
+				},
+				"url": {
+					"raw": "https://tomademuestras.api.openagora.cl/9d456df4-21ec-4720-3e67-dc7bda38439d",
+					"protocol": "https",
+					"host": [
+						"tomademuestras",
+						"api",
+						"openagora",
+						"cl"
+					],
+					"path": [
+						"9d456df4-21ec-4720-3e67-dc7bda38439d"
+					]
+				},
+				"description": "Este WS permite cambiar el laboratorio asignado a la muestra, dejándola en estado de espera de recepción por el nuevo laboratorio."
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
