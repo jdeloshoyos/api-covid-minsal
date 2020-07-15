@@ -35,7 +35,7 @@ class c_crearMuestras:
         """
         self.accesskey = accesskey
         self.endpoint = endpoint
-        
+        self.muestras_a_cargar = []
         self.respuesta = None
 
     def valida_campo(self, datos_muestra, nombre_campo, tipo_dato, num_opciones=0, patron=""):
@@ -64,9 +64,9 @@ class c_crearMuestras:
         # Si llegamos aquí, pasamos todas las validaciones. Devolvemos un string vacío en ese caso.
         return ""
 
-    def llamar(self, datos_muestra):
+    def agregaMuestra(self, datos_muestra):
         """
-        Llama a la API para la creación de una nueva muestra en el sistema.
+        Agrega una muestra a enviar en la solicitud. Debe agregarse al menos una muestra antes de usar el método llamar.
         El objeto datos_muestra debe ajustarse a la definición de lo que requiere este endpoint, pero los campos
         de selección discreta se pasan como integers; es esta clase la que realiza la conversión al dato correspondiente a enviar
         al endpoint Minsal.
@@ -95,11 +95,7 @@ class c_crearMuestras:
         }
         Hasta donde sabemos, todos los campos parecen ser obligatorios.
         Este método valida la existencia y corrección de todos los campos a enviar.
-        Valores de retorno:
-        0 = Llamado a API REST completado correctamente (igual podría contener una respuesta de error por parte del servidor, revisar código
-            200 [OK] para saber que la muestra se creó correctamente)
-        1 = datos_muestra contiene errores y falló la validación, no se llamó la API REST
-        2 = Llamada a la API REST falló
+        Retorna 0 si está todo OK, 1 si hay errores de validación, con el detalle en la propiedad self.validacion.
         """
 
         # Validación de datos de la muestra a crear
@@ -179,22 +175,40 @@ class c_crearMuestras:
         datos_muestra['tecnica_muestra'] = tipos_tecnicas[datos_muestra['tecnica_muestra']]
         datos_muestra['tipo_muestra'] = tipos_muestras[datos_muestra['tipo_muestra']]
 
-        # Enviamos el payload. Debe ir dentro de un array (aparentemente es posible crear más de una muestra en un único request)
-        try:
-            self.respuesta = requests.post(
-                self.endpoint,
-                headers = {
-                    'ACCESSKEY': self.accesskey,
-                    'Content-Type': 'application/json'
-                },
-                json = [datos_muestra]
-            )
+        self.muestras_a_cargar.append(datos_muestra)
 
-            self.codigo_respuesta = self.respuesta.status_code
-            self.resultados = self.respuesta.json()[0]  # Viene como un array con 0 a 1 único elemento
+    def llamar(self):
+        """
+        Llama a la API para la creación de una nueva muestra en el sistema.
+        Previo a esto, se DEBE agregar al menos una muestra con el método agregaMuestra.
 
-            return 0
+        Valores de retorno:
+        0 = Llamado a API REST completado correctamente (igual podría contener una respuesta de error por parte del servidor, revisar código
+            200 [OK] para saber que la muestra se creó correctamente)
+        1 = no hay al menos una muestra agregada para enviar, no se llamó la API REST
+        2 = Llamada a la API REST falló
+        """
 
-        except Exception as e:
-            self.resultados = {'error': 'Fallo en conexión a endpoint, excepción {}'.format(e)}
-            return 2
+        if len(self.muestras_a_cargar) > 0:
+            # Enviamos el payload. Debe ir dentro de un array (es posible crear más de una muestra en un único request)
+            try:
+                self.respuesta = requests.post(
+                    self.endpoint,
+                    headers = {
+                        'ACCESSKEY': self.accesskey,
+                        'Content-Type': 'application/json'
+                    },
+                    json = self.muestras_a_cargar
+                )
+
+                self.codigo_respuesta = self.respuesta.status_code
+                self.resultados = self.respuesta.json()  # Es un array con 1 a n objetos, uno por cada muestra que se intentó cargar.
+
+                return 0
+
+            except Exception as e:
+                self.resultados = {'error': 'Fallo en conexión a endpoint, excepción {}'.format(e)}
+                return 2
+
+        else:
+            return 1    # No se cargó ningún dato de muestra previamente

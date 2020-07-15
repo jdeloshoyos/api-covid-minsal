@@ -50,16 +50,37 @@ def crear(argumento, endpoint, config_entorno):
         print("ERROR: No se pudo abrir el archivo de nueva muestra nueva_muestra.json")
         sys.exit(1)
 
-    creacion = o_crear.llamar(datos_muestra)
+    try:
+        with open('nueva_muestra_2.json', 'r', encoding='utf-8') as json_file:
+            datos_muestra_2 = json.load(json_file)
+    except:
+        print("ERROR: No se pudo abrir el archivo de nueva muestra nueva_muestra_2.json")
+        sys.exit(1)
+
+    # Cargamos los datos de muestra
+    n = o_crear.agregaMuestra(datos_muestra)
+    if n == 1:
+        # Error en los datos para creación de la muestra
+        print("ERROR: Error de validación de los datos de la muestra en nueva_muestra.json:")
+        print(o_crear.validacion)
+
+    n = o_crear.agregaMuestra(datos_muestra_2)
+    if n == 1:
+        # Error en los datos para creación de la muestra
+        print("ERROR: Error de validación de los datos de la muestra en nueva_muestra_2.json:")
+        print(o_crear.validacion)
+        
+    creacion = o_crear.llamar()
     if creacion == 0:
         # Éxito
         print("Código de respuesta: {}".format(o_crear.codigo_respuesta))
         if o_crear.codigo_respuesta == 200:
-            # Recuperamos datos para este ID de muestra
-            print("\nNUEVA MUESTRA CREADA")
-            print("--------------------")
-            print("ID Minsal de muestra : {}".format(o_crear.resultados['id_muestra']))
-            print("ID local de muestra  : {}".format(o_crear.resultados['codigo_muestra_cliente']))
+            # Recuperamos datos para los ID de muestra creados
+            for res in o_crear.resultados:
+                print("\nNUEVA MUESTRA CREADA")
+                print("--------------------")
+                print("ID Minsal de muestra : {}".format(res['id_muestra']))
+                print("ID local de muestra  : {}".format(res['codigo_muestra_cliente']))
         else:
             # Se contactó a la API REST, pero la respuesta fue distinta a 200
             print("ERROR: Ocurrió el siguiente error al intentar crear la muestra:")
@@ -69,8 +90,8 @@ def crear(argumento, endpoint, config_entorno):
         # Error
         print("Error al llamar al servicio...")
         if creacion == 1:
-            # Error de validacion
-            print(o_crear.validacion)
+            # No se cargó ningún dato de muestra
+            print("ERROR: No se cargó ningún dato de nueva muestra antes de llamar al servicio")
         elif creacion == 2:
             # Error de conexión a servicio
             print(o_crear.respuesta)
