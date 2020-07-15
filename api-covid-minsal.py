@@ -30,6 +30,7 @@ from recepcionarMuestra_class import c_recepcionarMuestra
 from entregaResultado_class import c_entregaResultado
 from datosMuestraID_class import c_datosMuestraID
 from datosMuestraRUT_class import c_datosMuestraRUT
+from datosMuestraFECHA_class import c_datosMuestraFECHA
 
 #############################################################
 # FUNCIONES WRAPPER PARA EL LLAMADO A CLASES DE INTEGRACIÓN #
@@ -279,6 +280,68 @@ def datos_rut(argumento, endpoint, config_entorno):
             print(o_datos.respuesta)
             print(o_datos.respuesta.text)
 
+def datos_fecha(argumento, endpoint, config_entorno):
+    """
+    Wrapper para obtener datos de una muestra por su ID Minsal
+    """
+
+    o_datos = c_datosMuestraFECHA(config_entorno['accesskey'], config_entorno['dominio'] + endpoint)
+
+    argumentos = argumento.split(",")
+
+    creacion = o_datos.llamar(str(argumentos[0]), int(argumentos[1]))
+    if creacion == 0:
+        # Éxito
+        print("Código de respuesta: {}".format(o_datos.codigo_respuesta))
+        print("Mostrando {} resultados de muestras para el paciente en fecha {} y estado {}".format(len(o_datos.resultados), argumentos[0], argumentos[1]))
+        if o_datos.codigo_respuesta == 200:
+            # Recuperamos datos para este ID de muestra
+            # En el caso de la búsqueda de RUT, pueden haber más de un resultado, por lo que iteramos sobre la lista devuelta
+            for idx, i in enumerate(o_datos.resultados):
+                print("\n--- Resultado {} ---".format(idx + 1))
+                print("\nDATOS DE LA MUESTRA")
+                print("-------------------")
+                print("ID Minsal de muestra                   : {}".format(i['id_muestra']))
+                print("Estado de muestra en sistema           : {}".format(i['estado_muestra']))
+                print("Profesional que tomó la muestra        : {}".format(i['nombre_profesional']))
+                print("RUT de profesional que tomó la muestra : {}".format(i['rut_profesional']))
+                print("Establecimiento                        : {}".format(i['establecimiento_toma_muestra']))
+                print("Médico de indicación                   : {}".format(i['rut_medico_toma_muestra']))
+                print("Fecha                                  : {}".format(i['fecha_muestra']))
+                print("Técnica                                : {}".format(i['tecnica_muestra']))
+                print("Tipo                                   : {}".format(i['tipo_muestra']))
+                print("Laboratorio                            : {}".format(i['laboratorio']))
+                print("\nDATOS DEL PACIENTE")
+                print("------------------")
+                print("Documento            : {}".format(i['id_paciente']))
+                print("Tipo de documento    : {}".format(i['paciente_tipodoc']))
+                print("Nombre               : {}".format(i['nombre_paciente']))
+                print("Apellido paterno     : {}".format(i['apellido_paterno_paciente']))
+                print("Apellido materno     : {}".format(i['apellido_materno_paciente']))
+                print("Fecha de nacimiento  : {}".format(i['fecha_nacimiento']))
+                print("Comuna de residencia : {}".format(i['comuna']))
+                print("Dirección            : {}".format(i['paciente_direccion']))
+                print("Teléfono             : {}".format(i['paciente_telefono']))
+                print("Nacionalidad         : {}".format(i['pais']))
+                print("Sexo                 : {}".format(i['paciente_sexo']))
+                print("Es FONASA?           : {}".format(i['paciente_es_fonasa']))
+                print("Previsión            : {}".format(i['paciente_prevision']))
+        else:
+            # Se contactó a la API REST, pero la respuesta fue distinta a 200
+            print("ERROR: Ocurrió el siguiente error al intentar crear la muestra:")
+            print(o_datos.resultados)
+
+    else:
+        # Error
+        print("Error al llamar al servicio...")
+        if creacion == 1:
+            # Error de validacion
+            print("El argumento pasado para llamar al servicio no es correcto.")
+        elif creacion == 2:
+            # Error de conexión a servicio
+            print(o_datos.respuesta)
+            print(o_datos.respuesta.text)
+
 ####################
 # PUNTO DE ENTRADA #
 ####################
@@ -286,7 +349,7 @@ def datos_rut(argumento, endpoint, config_entorno):
 # Parseo de argumentos
 parser = argparse.ArgumentParser(description='Programa de demostración de conexión a API de trazabilidad de muestras Covid Minsal')
 parser.add_argument('accion', action='store', type=str, metavar='accion_a_realizar', choices=[
-    'crear', 'recepcionar', 'resultado', 'datos_id', 'datos_rut'])
+    'crear', 'recepcionar', 'resultado', 'datos_id', 'datos_rut', 'datos_fecha'])
 parser.add_argument('argumento', action='store', type=str, metavar='argumento_para_accion')
 parser.add_argument('-c', '--config', action='store', default='config.json', type=str, metavar='archivo_configuracion.json')
 args = parser.parse_args()
@@ -337,6 +400,11 @@ modos_op = {
         "nombre": "Obtener datos de muestra por RUT",
         "endpoint": config['endpoints']['datosMuestraRUT'],
         "funcion": datos_rut
+    },
+    "datos_fecha": {
+        "nombre": "Obtener datos de muestra por fecha y estado de muestra",
+        "endpoint": config['endpoints']['datosMuestraFECHA'],
+        "funcion": datos_fecha
     }
 }
 
