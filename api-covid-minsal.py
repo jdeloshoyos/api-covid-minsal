@@ -51,12 +51,14 @@ def crear(argumento, endpoint, config_entorno):
         print("ERROR: No se pudo abrir el archivo de nueva muestra nueva_muestra.json")
         sys.exit(1)
 
-    try:
-        with open('nueva_muestra_2.json', 'r', encoding='utf-8') as json_file:
-            datos_muestra_2 = json.load(json_file)
-    except:
-        print("ERROR: No se pudo abrir el archivo de nueva muestra nueva_muestra_2.json")
-        sys.exit(1)
+    if argumento == 2:
+        # Cargamos una segunda muestra para demostrar capacidad de crear en lotes
+        try:
+            with open('nueva_muestra_2.json', 'r', encoding='utf-8') as json_file:
+                datos_muestra_2 = json.load(json_file)
+        except:
+            print("ERROR: No se pudo abrir el archivo de nueva muestra nueva_muestra_2.json")
+            sys.exit(1)
 
     # Cargamos los datos de muestra
     n = o_crear.agregaMuestra(datos_muestra)
@@ -65,11 +67,13 @@ def crear(argumento, endpoint, config_entorno):
         print("ERROR: Error de validación de los datos de la muestra en nueva_muestra.json:")
         print(o_crear.validacion)
 
-    n = o_crear.agregaMuestra(datos_muestra_2)
-    if n == 1:
-        # Error en los datos para creación de la muestra
-        print("ERROR: Error de validación de los datos de la muestra en nueva_muestra_2.json:")
-        print(o_crear.validacion)
+    if argumento == 2:
+        # Cargamos una segunda muestra para demostrar capacidad de crear en lotes
+        n = o_crear.agregaMuestra(datos_muestra_2)
+        if n == 1:
+            # Error en los datos para creación de la muestra
+            print("ERROR: Error de validación de los datos de la muestra en nueva_muestra_2.json:")
+            print(o_crear.validacion)
         
     creacion = o_crear.llamar()
     if creacion == 0:
@@ -161,6 +165,7 @@ def resultado(argumento, endpoint, config_entorno):
             print("El argumento pasado para llamar al servicio no es correcto.")
         elif creacion == 2:
             # Error de conexión a servicio
+            print(o_crear.resultados)
             print(o_crear.respuesta)
             print(o_crear.respuesta.text)
 

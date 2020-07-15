@@ -77,10 +77,10 @@ class c_entregaResultado:
                         'upfile': ('resultado.txt', tipos_resultado[resultado])
                     }
                 )
-
+                
                 self.codigo_respuesta = self.respuesta.status_code
-                self.resultados = self.respuesta.json()[0]  # Viene como un array con 0 a 1 único elemento
-
+                self.resultados = self.respuesta.json()
+                
                 return 0
 
             except Exception as e:
