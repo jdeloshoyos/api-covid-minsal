@@ -15,4 +15,6 @@ El *endpoint* faltante por implementar aún es ​/cambioLaboratorio .
 
 Se incluye un programa de prueba (api-covid-minsal.py) que muestra cómo llamar y utilizar estas clases. La implementación misma de cada clase muestra cómo se llama cada uno de los *endpoints* de la API.
 
+[La documentación oficial de estas APIs se encuentra aquí](https://tomademuestras.apidocs.openagora.org/).
+
 Para más contexto, dudas y discusión al respecto, [ver la publicación relacionada en el Foro de Salud Digital](https://discourse.forosaluddigital.cl/t/api-rest-minsal-para-informe-y-seguimiento-de-muestras-pcr-para-sars-cov-2).
