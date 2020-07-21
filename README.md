@@ -18,3 +18,9 @@ Se incluye un programa de prueba (api-covid-minsal.py) que muestra cómo llamar 
 [La documentación oficial de estas APIs se encuentra aquí](https://tomademuestras.apidocs.openagora.org/).
 
 Para más contexto, dudas y discusión al respecto, [ver la publicación relacionada en el Foro de Salud Digital](https://discourse.forosaluddigital.cl/t/api-rest-minsal-para-informe-y-seguimiento-de-muestras-pcr-para-sars-cov-2).
+
+## Requerimientos
+
+- Python 3 (probado con Python 3.8, aunque debería funcionar perfectamente con versiones anteriores de Python 3)
+- Librería "requests" para Python. Se puede instalar simplemente con:  
+``pip install requests``
