@@ -271,7 +271,7 @@ def datos_rut(argumento, endpoint, config_entorno):
                 print("Previsión            : {}".format(i['paciente_prevision']))
         else:
             # Se contactó a la API REST, pero la respuesta fue distinta a 200
-            print("ERROR: Ocurrió el siguiente error al intentar crear la muestra:")
+            print("ERROR: Ocurrió el siguiente error al intentar consultar la muestra:")
             print(o_datos.resultados)
 
     else:

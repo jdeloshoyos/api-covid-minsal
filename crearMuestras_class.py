@@ -77,8 +77,10 @@ class c_crearMuestras:
             "rut_responsable": (str) (formato: sin puntos, con guión y con DV),
             "cod_deis": (int),
             "rut_medico": (str) (formato: sin puntos, con guión y con DV),
-            "paciente_run": (int) (sin puntos, guión ni DV),
-            "paciente_dv": (int) (sólo el DV),
+            "paciente_run": (int) (sin puntos, guión ni DV); sólo si tipo de documento es RUN,
+            "paciente_dv": (int) (sólo el DV); sólo si tipo de documento es RUN
+            "paciente_pasaporte": (str); sólo si tipo de documento es Pasaporte
+            "paciente_ext_paisorigen": (int) (código DEIS); sólo si tipo de documento es Pasaporte
             "paciente_nombres": (str),
             "paciente_ap_pat": (str),
             "paciente_ap_mat": (str),
@@ -108,8 +110,6 @@ class c_crearMuestras:
         self.validacion += self.valida_campo(datos_muestra, "rut_responsable", str, patron=patron_rut)
         self.validacion += self.valida_campo(datos_muestra, "cod_deis", int)
         self.validacion += self.valida_campo(datos_muestra, "rut_medico", str, patron=patron_rut)
-        self.validacion += self.valida_campo(datos_muestra, "paciente_run", int)
-        self.validacion += self.valida_campo(datos_muestra, "paciente_dv", str, patron="^[0-9kK]$")
         self.validacion += self.valida_campo(datos_muestra, "paciente_nombres", str)
         self.validacion += self.valida_campo(datos_muestra, "paciente_ap_pat", str)
         self.validacion += self.valida_campo(datos_muestra, "paciente_ap_mat", str)
@@ -117,7 +117,14 @@ class c_crearMuestras:
         self.validacion += self.valida_campo(datos_muestra, "paciente_comuna", int)
         self.validacion += self.valida_campo(datos_muestra, "paciente_direccion", str)
         self.validacion += self.valida_campo(datos_muestra, "paciente_telefono", str)
-        self.validacion += self.valida_campo(datos_muestra, "paciente_tipodoc", int, num_opciones=2)
+        self.validacion += self.valida_campo(datos_muestra, "paciente_tipodoc", int, num_opciones=3)
+        # Validaciones dependientes del tipo de documento
+        if datos_muestra['paciente_tipodoc'] == 1:
+            self.validacion += self.valida_campo(datos_muestra, "paciente_run", int)
+            self.validacion += self.valida_campo(datos_muestra, "paciente_dv", str, patron="^[0-9kK]$")
+        elif datos_muestra['paciente_tipodoc'] == 2:
+            self.validacion += self.valida_campo(datos_muestra, "paciente_pasaporte", str)
+            self.validacion += self.valida_campo(datos_muestra, "paciente_ext_paisorigen", int)
         self.validacion += self.valida_campo(datos_muestra, "paciente_sexo", int, num_opciones=4)
         self.validacion += self.valida_campo(datos_muestra, "paciente_prevision", int, num_opciones=7)
         self.validacion += self.valida_campo(datos_muestra, "fecha_muestra", str, patron=patron_fecha)
