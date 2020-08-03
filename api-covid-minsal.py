@@ -117,8 +117,8 @@ def recepcionar(argumento, endpoint, config_entorno):
             # Recuperamos datos para este ID de muestra
             print("\nMUESTRA RECEPCIONADA")
             print("--------------------")
-            print("ID Minsal de muestra : {}".format(o_crear.resultados['id_muestra']))
-            print("ID local de muestra  : {}".format(o_crear.resultados['codigo_muestra_cliente']))
+            print("ID Minsal de muestra : {}".format(o_crear.resultados[0]['id_muestra']))
+            print("ID local de muestra  : {}".format(o_crear.resultados[0]['codigo_muestra_cliente']))
         else:
             # Se contactó a la API REST, pero la respuesta fue distinta a 200
             print("ERROR: Ocurrió el siguiente error al intentar recepcionar la muestra:")

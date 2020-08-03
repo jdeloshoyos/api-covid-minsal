@@ -57,7 +57,7 @@ class c_recepcionarMuestra:
                 )
 
                 self.codigo_respuesta = self.respuesta.status_code
-                self.resultados = self.respuesta.json()[0]  # Viene como un array con 0 a 1 único elemento
+                self.resultados = self.respuesta.json()  # Viene como un array con 0 a 1 único elemento si es exitoso, un objeto con el error si no
 
                 return 0
 
