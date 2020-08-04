@@ -78,7 +78,7 @@ class c_crearMuestras:
             "cod_deis": (int),
             "rut_medico": (str) (formato: sin puntos, con guión y con DV),
             "paciente_run": (int) (sin puntos, guión ni DV); sólo si tipo de documento es RUN,
-            "paciente_dv": (int) (sólo el DV); sólo si tipo de documento es RUN
+            "paciente_dv": (str) (sólo el DV); sólo si tipo de documento es RUN
             "paciente_pasaporte": (str); sólo si tipo de documento es Pasaporte
             "paciente_ext_paisorigen": (int) (código DEIS); sólo si tipo de documento es Pasaporte
             "paciente_nombres": (str),
